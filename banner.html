@@ -88,17 +88,29 @@
                 }
                 btns[num].className="btn-item selected";
                 animate(bg,'left',num*(-1920),500);
-        },3000)
-
+        },3000);
         for(let i=0;i<btns.length;i++){
             btns[i].onclick=function(){
+                clearInterval(t);
                 num=i;
                 for(var j=0;j<bgs.length;j++){
                     btns[j].className="btn-item";
                 }
                 this.className="btn-item selected";
                 animate(bg,'left',i*(-1920),500);
+                t=setInterval(function(){
+                    num++;
+                    if(num>btns.length-1){
+                        num=0;
+                    }
+                    for(var j=0;j<bgs.length;j++){
+                            btns[j].className="btn-item";
+                        }
+                        btns[num].className="btn-item selected";
+                        animate(bg,'left',num*(-1920),500);
+                },3000);
             }
+            
         }
         
         function animate(obj,attr,end,duration){
