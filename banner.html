@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .banner{
+            height: 400px;
+            width: 100%;
+            margin-top: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        .bg{
+            position: absolute;
+            width: 11520px;
+            height: 100%;
+            left:0;
+        }
+        .banner a{
+            height: 400px;
+            float: left;
+            width: 1920px;
+        }
+        .btn{
+            width: 100%;
+            text-align: center;
+            height: 15px;
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: auto;
+            bottom: 20px;
+        }
+        .btn .btn-item{
+            display: inline-block;
+            width: 60px;
+            height: 2px;
+            background: #fff;
+            cursor: pointer;
+            margin-right: 8px;
+            opacity: 0.2;
+        }
+        .btn .selected{
+            background: #007aff;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <div class="bg">
+            <a href="#" style="background: url(images/banner1.jpg) center no-repeat;"></a>
+            <a href="#" style="background: url(images/banner2.jpg) center no-repeat;"></a>
+            <a href="#" style="background: url(images/banner3.jpg) center no-repeat;"></a>
+            <a href="#" style="background: url(images/banner4.jpg) center no-repeat;"></a>
+            <a href="#" style="background: url(images/banner5.jpg) center no-repeat;"></a>
+            <a href="#" style="background: url(images/banner6.jpg) center no-repeat;"></a>
+        </div>
+        <div class="btn">
+            <div class="btn-item selected"></div>
+            <div class="btn-item"></div>
+            <div class="btn-item"></div>
+            <div class="btn-item"></div>
+            <div class="btn-item"></div>
+            <div class="btn-item"></div>
+        </div>
+    </div>
+    <script src="aniMath.js"></script>
+    <script>
+        console.log(window)
+        var bgs=document.querySelectorAll('.bg a');
+        var btns=document.querySelectorAll('.btn .btn-item');
+        var bg=document.querySelector('.bg');
+        var num=0;
+        var t=setInterval(function(){
+            num++;
+            if(num>btns.length-1){
+                num=0;
+            }
+            for(var j=0;j<bgs.length;j++){
+                    btns[j].className="btn-item";
+                }
+                btns[num].className="btn-item selected";
+                animate(bg,'left',num*(-1920),500);
+        },3000)
+
+        for(let i=0;i<btns.length;i++){
+            btns[i].onclick=function(){
+                num=i;
+                for(var j=0;j<bgs.length;j++){
+                    btns[j].className="btn-item";
+                }
+                this.className="btn-item selected";
+                animate(bg,'left',i*(-1920),500);
+            }
+        }
+        
+        function animate(obj,attr,end,duration){
+            clearInterval(obj.t1);
+            var start=parseInt(getComputedStyle(obj,null)[attr]);
+            var change=end-start;
+            var time=0;
+            obj.t1=setInterval(function(){
+                time+=50;
+                // obj.style[attr]=start+change*time/duration+'px';
+                obj.style[attr]=Tween.Linear(time,start,change,duration)+'px';
+                if(time>=duration){
+                    obj.style[attr]=end+'px';
+                    clearInterval(obj.t1);
+                }
+            },50)
+        }
+    </script>
+</body>
+</html>
